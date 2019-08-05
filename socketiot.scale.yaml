@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: iot
+  name: "socketiot-service"
+  labels:
+    app: socketiot
+spec:
+  selector:
+    app: "socketiot"
+  ports:
+    - protocol: "TCP"
+      name: "tcpsvr"
+      port: 12000
+      targetPort: tcpport
+    - protocol: "TCP"
+      name: "sectcp"
+      port: 12001
+      targetPort: sectcpport 
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: iot
+  name: socketiot-deployment
+  labels:
+    app: socketiot
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: socketiot
+  template:
+    metadata:
+      labels:
+        app: socketiot
+    spec:
+      containers:
+        - name: socketiot-container
+          image: mtcblr.azurecr.io/hydroponics/socketiot:1
+          ports:
+            - name: tcpport
+              containerPort: 12000
+            - name: sectcpport
+              containerPort: 12001
+      imagePullSecrets:
+        - name: mtc-acr-cred

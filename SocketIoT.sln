@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketIoT", "SocketIoT\SocketIoT.csproj", "{40C9263A-58FB-471B-9CC6-070D75ACB686}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kubernetes", "Kubernetes", "{3099ED80-7F8A-44F0-9E23-9CD6105B6E9C}"
+	ProjectSection(SolutionItems) = preProject
+		socketiot-dbg.yaml = socketiot-dbg.yaml
+		socketiot.yaml = socketiot.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{8F7EBFEE-71EC-4192-AA71-20DCC90ECD24}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+		Dockerfile-Dbg = Dockerfile-Dbg
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketIoT.Tenancy", "SocketIoT.Tenancy\SocketIoT.Tenancy.csproj", "{B18A056C-97DB-4BBA-9E78-52396F87CDAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketIoT.Core.Tcp", "SocketIoT.Core.Tcp\SocketIoT.Core.Tcp.csproj", "{C0841928-DD29-45D2-A900-B58D05F8F528}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketIoT.Bootstrapper", "SocketIoT.Bootstrapper\SocketIoT.Bootstrapper.csproj", "{53F46380-1B95-4E60-B4B2-1101252F3902}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketIoT.IoTHubProvider", "SocketIoT.IoTHubProvider\SocketIoT.IoTHubProvider.csproj", "{00C51902-E676-40F0-AC86-CD9CF17CAA49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tcp", "Tcp", "{2344848D-705C-4F71-9A5A-9C62F0DAA463}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketIoT.Core.Common", "SocketIoT.Core.Contracts\SocketIoT.Core.Common.csproj", "{D418AFD2-C6E9-4A8D-B811-19992BEF66EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40C9263A-58FB-471B-9CC6-070D75ACB686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C9263A-58FB-471B-9CC6-070D75ACB686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C9263A-58FB-471B-9CC6-070D75ACB686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C9263A-58FB-471B-9CC6-070D75ACB686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B18A056C-97DB-4BBA-9E78-52396F87CDAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B18A056C-97DB-4BBA-9E78-52396F87CDAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B18A056C-97DB-4BBA-9E78-52396F87CDAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B18A056C-97DB-4BBA-9E78-52396F87CDAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0841928-DD29-45D2-A900-B58D05F8F528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0841928-DD29-45D2-A900-B58D05F8F528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0841928-DD29-45D2-A900-B58D05F8F528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0841928-DD29-45D2-A900-B58D05F8F528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53F46380-1B95-4E60-B4B2-1101252F3902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F46380-1B95-4E60-B4B2-1101252F3902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53F46380-1B95-4E60-B4B2-1101252F3902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53F46380-1B95-4E60-B4B2-1101252F3902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00C51902-E676-40F0-AC86-CD9CF17CAA49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00C51902-E676-40F0-AC86-CD9CF17CAA49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00C51902-E676-40F0-AC86-CD9CF17CAA49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00C51902-E676-40F0-AC86-CD9CF17CAA49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D418AFD2-C6E9-4A8D-B811-19992BEF66EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D418AFD2-C6E9-4A8D-B811-19992BEF66EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D418AFD2-C6E9-4A8D-B811-19992BEF66EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D418AFD2-C6E9-4A8D-B811-19992BEF66EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C0841928-DD29-45D2-A900-B58D05F8F528} = {2344848D-705C-4F71-9A5A-9C62F0DAA463}
+		{53F46380-1B95-4E60-B4B2-1101252F3902} = {2344848D-705C-4F71-9A5A-9C62F0DAA463}
+		{00C51902-E676-40F0-AC86-CD9CF17CAA49} = {2344848D-705C-4F71-9A5A-9C62F0DAA463}
+		{D418AFD2-C6E9-4A8D-B811-19992BEF66EC} = {2344848D-705C-4F71-9A5A-9C62F0DAA463}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {11E371AD-95BA-4E49-96C6-9AA2925CAADA}
+	EndGlobalSection
+EndGlobal

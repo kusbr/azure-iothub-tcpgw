@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to Kubernetes",
+            "type": "coreclr",
+            "request": "attach",
+            "processName": "dotnet",
+            "sourceFileMap": {
+                "/build": "/app"
+            },
+            "pipeTransport": {
+                "pipeProgram": "C:\\Program Files\\Git\\bin\\bash.exe",
+                "pipeCwd": "${workspaceRoot}",
+                "pipeArgs": [
+                    "C:\\Users\\kusbr\\source\\repos\\SocketIoT\\.vs\\a.sh",
+                    "--selector app=socketiot",
+                    "--namespace iot"
+                ],
+                "quoteArgs": false,
+                // path to installed debugger inside a container relative to WORKDIR
+                "debuggerPath": "../vsdbg/vsdbg"
+            }
+        }
+    ]
+}

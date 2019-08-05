@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <StartupObject>SocketIoT.SocketServerHost</StartupObject>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="EchoServerHandler.cs" />
+    <Compile Remove="Program2.cs" />
+    <Compile Remove="TcpServerHost.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appSettings.config.user">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="mqttTopicConversion.config.user">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Codecs" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Common" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
+    <PackageReference Include="DotNetty.Transport.Libuv" Version="0.6.0" />
+    <PackageReference Include="EnterpriseLibrary.SemanticLogging.NetCore" Version="2.0.1406.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SocketIoT.Bootstrapper\SocketIoT.Bootstrapper.csproj" />
+    <ProjectReference Include="..\SocketIoT.Core.Contracts\SocketIoT.Core.Common.csproj" />
+    <ProjectReference Include="..\SocketIoT.Core.Tcp\SocketIoT.Core.Tcp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="protocol-gateway.contoso.com.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

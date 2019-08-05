@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="NonTlsBootstrapper.cs" />
+    <Compile Remove="TcpBootstrapperBase.cs" />
+    <Compile Remove="TlsBootstrapper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SocketIoT.Core.Contracts\SocketIoT.Core.Common.csproj" />
+    <ProjectReference Include="..\SocketIoT.IoTHubProvider\SocketIoT.IoTHubProvider.csproj" />
+    <ProjectReference Include="..\SocketIoT.Tenancy\SocketIoT.Tenancy.csproj" />
+  </ItemGroup>
+
+</Project>

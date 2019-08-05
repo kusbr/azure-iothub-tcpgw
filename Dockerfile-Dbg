@@ -1,0 +1,47 @@
+FROM mcr.microsoft.com/dotnet/core/runtime:2.1-stretch-slim AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/core/sdk:2.1-stretch AS build
+WORKDIR /src
+
+COPY SocketIoT/*.csproj ./SocketIoT/
+COPY SocketIoT.Bootstrapper/*.csproj ./SocketIoT.Bootstrapper/
+COPY SocketIoT.Core.Contracts/*.csproj ./SocketIoT.Core.Contracts/
+COPY SocketIoT.Core.Tcp/*.csproj ./SocketIoT.Core.Tcp/
+COPY SocketIoT.IoTHubProvider/*.csproj ./SocketIoT.IoTHubProvider/
+COPY SocketIoT.Tenancy/*.csproj ./SocketIoT.Tenancy/
+
+RUN dotnet restore "SocketIoT/SocketIoT.csproj"
+
+COPY . .
+WORKDIR "/src/SocketIoT"
+RUN dotnet build "SocketIoT.csproj" -c Debug -o /app
+
+FROM build AS publish
+RUN dotnet publish "SocketIoT.csproj" -c Debug -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+
+COPY SocketIoT/*.json /app
+
+#RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
+#RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2017u5 -l ~/vsdbg
+
+
+RUN apt-get update && apt-get -y install openssh-server unzip
+RUN mkdir /var/run/sshd && chmod 0755 /var/run/sshd 
+RUN service ssh start
+
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+RUN sed -i 's/#StrictModes yes/StrictModes no/g' /etc/ssh/sshd_config
+
+RUN mkdir /root/.vs-debugger && chmod 0755 /root/.vs-debugger
+RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2017u1 -l /root/.vs-debugger/	
+
+EXPOSE 22
+EXPOSE 12000/tcp
+EXPOSE 12001/tcp
+
+ENTRYPOINT ["dotnet", "SocketIoT.dll"]
