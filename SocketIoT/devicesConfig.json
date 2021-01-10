@@ -1,0 +1,17 @@
+﻿{
+  "SocketIoTDevicesConfig": {
+    "MessageDelimiter":  "~",
+    "Tenants": [
+      {
+        "TenantId": "{tenantid matching in appsettings}",
+        "Devices": [
+          {
+            "Id": "{deviceid}",
+            "IoTHubHostName": "{iothubname}.azure-devices.net",
+            "SasToken": "{Sas token for device}"
+          }
+        ]
+      }
+    ]
+  }
+}

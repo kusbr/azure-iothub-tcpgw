@@ -70,7 +70,7 @@ namespace SocketIoT.Core.Tcp.Codec
             if (deviceCred == null)
                 return null ;
 
-            return new ConnectPacket(deviceId, deviceCred.Username, deviceCred.Password, 120); //TODO: Change session aliveness to config
+            return new ConnectPacket(deviceId, deviceCred.Username, deviceCred.SasToken, 120); //TODO: Change session aliveness to config
         }
 
         string GetDeviceD2CAddress(string deviceId)

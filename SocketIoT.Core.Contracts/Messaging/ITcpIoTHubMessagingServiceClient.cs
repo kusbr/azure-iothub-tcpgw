@@ -18,5 +18,9 @@ namespace SocketIoT.Core.Common
         Task RejectAsync(string messageId);
 
         Task DisposeAsync(Exception cause);
+
+        Task CloseAsync();
+
+        string DeviceId { get; }
     }
 }

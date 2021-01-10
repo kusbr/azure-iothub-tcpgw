@@ -76,6 +76,8 @@ namespace SocketIoT.AzureIoTHubClient
             return mqttCommunicatorFactory;
         }
 
+        public string DeviceId => deviceId;
+
         public IMessage CreateMessage(string address, IByteBuffer payload)
         {
             var message = new IotHubClientMessage(new Message(payload.IsReadable() ? new ReadOnlyByteBufferStream(payload, false) : null), payload);
@@ -148,6 +150,11 @@ namespace SocketIoT.AzureIoTHubClient
             {
                 throw ComposeIotHubCommunicationException(ex);
             }
+        }
+
+        public async Task CloseAsync()
+        {
+            await this.deviceClient.CloseAsync();
         }
 
         internal static IAuthenticationMethod DeriveAuthenticationMethod(IAuthenticationMethod currentAuthenticationMethod, AzureIoTHUb.IotHubDeviceIdentity deviceIdentity)

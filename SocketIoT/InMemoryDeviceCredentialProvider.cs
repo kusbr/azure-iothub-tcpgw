@@ -1,5 +1,6 @@
 ﻿using SocketIoT.Core.Common;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SocketIoT
@@ -8,13 +9,17 @@ namespace SocketIoT
     {
         Hashtable deviceCredentialMap = new Hashtable();
 
-        public InMemoryDeviceCredentialProvider()
+        public InMemoryDeviceCredentialProvider(IList<TenantConfig> tenantConfig)
         {
-            deviceCredentialMap["leafdevicename"] = new DeviceCredential
-                (
-                    "{deviceId_of_the_leaf_device_in_iothub}", "{iothubhostname}/{deviceid}", "{devicepassword}"
-                );
-
+            foreach (var tenant in tenantConfig)
+            {
+                var tenantId = tenant.TenantId;
+                foreach (var device in tenant.Devices)
+                {
+                    var deviceCredential = new DeviceCredential(device.Id, $"{device.IoTHubHostName}/{device.Id}", device.SasToken);
+                    deviceCredentialMap.Add($"{tenantId}.{device.Id}", deviceCredential);
+                }
+            }
         }
 
         public Task<IDeviceCredential> GetCredentialAsync(string tenantId, string deviceId)

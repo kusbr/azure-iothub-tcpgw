@@ -5,11 +5,11 @@ namespace SocketIoT
 {
     public sealed class DeviceCredential : IDeviceCredential
     {
-        public DeviceCredential(string deviceId, string Username, string Password)
+        public DeviceCredential(string deviceId, string Username, string SasRoken)
         {
             this.DeviceId = deviceId;
             this.Username = Username;
-            this.Password = Password;
+            this.SasToken = SasRoken;
         }
 
         public DeviceCredentialType credentialType => DeviceCredentialType.Sas;
@@ -18,6 +18,6 @@ namespace SocketIoT
 
         public string Username { get; }
 
-        public string Password { get; }
+        public string SasToken { get; }
     }
 }

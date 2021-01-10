@@ -35,7 +35,7 @@ namespace SocketIoT.Tenancy
                     byte[] buffer = new byte[input.ReadableBytes];
                     input.ReadBytes(buffer);
                     var packetStr = Encoding.UTF8.GetString(buffer);
-                    var delim = '\\';
+                    var delim = '~';
 
                     var tokens = packetStr.Split(delim, StringSplitOptions.RemoveEmptyEntries);
                     if (tokens?.Length >= 3)

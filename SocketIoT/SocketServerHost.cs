@@ -1,4 +1,6 @@
-﻿using SocketIoT.Bootstrapper;
+﻿using Microsoft.Extensions.Configuration;
+using SocketIoT.Bootstrapper;
+using SocketIoT.Configuration;
 using SocketIoT.Core.Common;
 using SocketIoT.Core.Common.Config;
 using System;
@@ -10,8 +12,12 @@ namespace SocketIoT
 {
     class SocketServerHost
     {
+        private const string tenantConfigFilePath = "devicesConfig.json";
+        private static SocketIoTDevicesConfig tenantDevicesConfig;
+
         public static void Main(string[] args)
         {
+            tenantDevicesConfig = GetTenantConfig();
             BootstrapTcpServers();
         }
 
@@ -39,8 +45,8 @@ namespace SocketIoT
             {
                 cts1 = new CancellationTokenSource();
                 cts2 = new CancellationTokenSource();
-                IDeviceCredentialProvider deviceSasTokenProvider1 = new InMemoryDeviceCredentialProvider();
-                IDeviceCredentialProvider deviceSasTokenProvider2 = new InMemoryDeviceCredentialProvider();
+                IDeviceCredentialProvider deviceSasTokenProvider1 = new InMemoryDeviceCredentialProvider(tenantDevicesConfig.Tenants);
+                IDeviceCredentialProvider deviceSasTokenProvider2 = new InMemoryDeviceCredentialProvider(tenantDevicesConfig.Tenants);
                 var settingsProvider1 = new AppConfigSettingsProvider();
                 var settingsProvider2 = new AppConfigSettingsProvider();
 
@@ -71,6 +77,12 @@ namespace SocketIoT
                 tlsBootstrapper.CloseCompletion.Wait(TimeSpan.FromSeconds(20));
                 nonTlsBootstrapper.CloseCompletion.Wait(TimeSpan.FromSeconds(20));
             }
+        }
+
+        static SocketIoTDevicesConfig GetTenantConfig()
+        {
+            var config = new ConfigurationBuilder().AddJsonFile(tenantConfigFilePath, optional: false, reloadOnChange: false).Build();
+            return config?.GetSection(nameof(SocketIoTDevicesConfig)).Get<SocketIoTDevicesConfig>();
         }
 
         public static bool ValidateClientCertificate(object sender, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)

@@ -11,6 +11,7 @@ using SocketIoT.Core.Tcp.Tenancy;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace SocketIoT.Core.Tcp.Handlers
 {
@@ -81,7 +82,6 @@ namespace SocketIoT.Core.Tcp.Handlers
             var tenancyContext = context.GetAttribute<AbstractTenancyContext>(AttributeKey<AbstractTenancyContext>.ValueOf(AbstractTenancyContext.TENANCY_CONTEXT_KEY)).Get();
             this.messagingBridgeFactory = tenancyContext.IotBridgeFactory;
 
-
             var packets = message as IDictionary<PacketType, Packet>;
 
             if (packets == null || (packets!= null && packets.Count <= 0))
@@ -114,10 +114,38 @@ namespace SocketIoT.Core.Tcp.Handlers
             context.WriteAsync(message);
         }
 
+        public override void ChannelUnregistered(IChannelHandlerContext context)
+        {
+            DisconnectDevice().Wait();
+            base.ChannelUnregistered(context);
+        }
+
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            Console.WriteLine("ERROR:" + exception.Message);
-            Console.WriteLine(exception.StackTrace);
+            if (exception is System.Net.Sockets.SocketException)
+            {
+                switch ((exception as System.Net.Sockets.SocketException).SocketErrorCode)
+                {
+                    case System.Net.Sockets.SocketError.ConnectionReset:
+                        string deviceId = "";
+                        if (this.messagingBridge != null)
+                        {
+                            if (this.messagingBridge.TryResolveClient("Events", out var iotClient))
+                            {
+                                deviceId = iotClient.DeviceId;
+                            }
+                        }
+                        Console.WriteLine($"Connection reset by device {deviceId}");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("ERROR:" + exception.Message);
+                Console.WriteLine(exception.StackTrace);
+            }
+            DisconnectDevice().Wait();
+            Shutdown(context, exception);
             context.CloseAsync();
         }
 
@@ -170,7 +198,7 @@ namespace SocketIoT.Core.Tcp.Handlers
         }
         #endregion
 
-        #region Lifecylce management events - Connect, CompleteConnect, KeepAlive
+        #region Lifecylce management events - Connect, CompleteConnect, KeepAlive, Disconnect, Data Send, Shutdown
 
         #region Connect
         async void Connect(IChannelHandlerContext context, ConnectPacket packet)
@@ -189,7 +217,7 @@ namespace SocketIoT.Core.Tcp.Handlers
                     return;
                 }
 
-                Console.WriteLine("ClientAuthenticated", this.identity.ToString(), this.ChannelId);
+                Console.WriteLine($"Device {this.identity.Id} Authenticated");
 
                 this.messagingBridge = await this.messagingBridgeFactory(this.identity);
 
@@ -212,7 +240,7 @@ namespace SocketIoT.Core.Tcp.Handlers
         /// <param name="context"><see cref="IChannelHandlerContext" /> instance.</param>
         void CompleteConnect(IChannelHandlerContext context)
         {
-            Console.WriteLine("Connection established.", this.identity.ToString(), this.ChannelId);
+            Console.WriteLine($"Connection established:{this.identity.ToString()} channelId:  {this.ChannelId}");
 
             if (this.keepAliveTimeout > TimeSpan.Zero)
             {
@@ -265,6 +293,22 @@ namespace SocketIoT.Core.Tcp.Handlers
             }
 
             return timeout;
+        }
+
+        #endregion
+
+        #region Disconnect
+
+        async Task DisconnectDevice()
+        {
+            if (this.messagingBridge != null)
+            {
+                if (this.messagingBridge.TryResolveClient("Events", out var iotClient))
+                {
+                    Console.WriteLine($"Closing device {iotClient.DeviceId} connection to Azure IoT Hub...");
+                    await iotClient?.CloseAsync();
+                }
+            }
         }
 
         #endregion

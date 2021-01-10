@@ -5,6 +5,6 @@
         DeviceCredentialType credentialType { get; }
         string DeviceId { get; }
         string Username { get; }
-        string Password{ get; }
+        string SasToken{ get; }
     }
 }
