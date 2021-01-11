@@ -1,0 +1,4 @@
+﻿<mqttTopicNameConversion>
+  <inboundTemplate>devices/{deviceId}/messages/events</inboundTemplate>
+  <outboundTemplate>devices/{deviceId}/messages/devicebound</outboundTemplate>
+</mqttTopicNameConversion>
