@@ -28,4 +28,4 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: user/socketiot:latest
+        tags: ${{ secrets.SECRET_DH_UN }}/socketiot:latest
