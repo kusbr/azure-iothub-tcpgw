@@ -25,6 +25,12 @@ jobs:
       with:
         username: ${{ secrets.SECRET_DH_UN }}
         password: ${{ secrets.SECRET_DH_REPO_SPECIFIC_TOKEN }}
+    -
+      run:
+         pwd
+    - 
+      run:
+         docker
     - 
       name: Build and push
       uses: docker/build-push-action@v3
