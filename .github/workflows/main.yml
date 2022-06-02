@@ -28,6 +28,8 @@ jobs:
     - 
       run: 
         pwd
+    -
+      run:
         docker 
     - 
       name: Build and push
