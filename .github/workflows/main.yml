@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ kusbr=pathc-1 ]
     paths: "Deploy/**"
   workflow_dispatch:   
 
